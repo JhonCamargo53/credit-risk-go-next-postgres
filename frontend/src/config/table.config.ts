@@ -1,0 +1,2 @@
+export const TABLE_DATA_LIMIT_PER_PAGE = 10;
+export const TABLE_DATA_LIMIT_PER_PAGE_SMALL = 5;

@@ -1,0 +1,108 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+:root {
+  --brand-primary: #c53434;
+  /* Rojo brillante */
+  --brand-secondary: #f26422bf;
+  /* Naranja medio */
+  --brand-accent: #a9630d;
+  /* Naranja claro */
+  --brand-info: #2a6f7a;
+  /* Azul petróleo */
+  --brand-error: #c1272d;
+  /* Rojo vino */
+  --brand-neutral-dark: #25282a;
+  /* Gris oscuro */
+  --brand-neutral-light: #d7d2cb;
+  /* Gris claro */
+  --brand-neutral-alt: #0c2c3a;
+  /* Azul muy oscuro */
+
+  --background: var(--brand-neutral-light);
+  --foreground: var(--brand-neutral-dark);
+}
+
+@theme inline {
+  --color-primary: var(--brand-primary);
+  --color-secondary: var(--brand-secondary);
+  --color-accent: var(--brand-accent);
+  --color-info: var(--brand-info);
+  --color-error: var(--brand-error);
+  --color-neutral-dark: var(--brand-neutral-dark);
+  --color-neutral-light: var(--brand-neutral-light);
+  --color-neutral-alt: var(--brand-neutral-alt);
+}
+
+/* Modo oscuro cambia variables base */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--brand-neutral-dark);
+    --foreground: var(--foreground);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.bg-radial-primary-to-dark {
+  @apply bg-radial-[at_50%_75%] from-primary to-neutral-dark;
+}
+
+.bg-linear-primary-to-dark {
+  @apply bg-linear-to-tr from-primary to-neutral-dark;
+}
+
+.primary-gradient-to-b {
+  @apply bg-gradient-to-b from-neutral-dark to-primary;
+}
+
+.btn-primary {
+  @apply bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer text-center
+}
+
+.btn-primary:hover {
+  @apply opacity-90
+}
+
+.btn-primary:disabled {
+  @apply bg-primary/40 cursor-not-allowed
+}
+
+.btn-secondary {
+  @apply border border-primary bg-white text-primary px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer text-center;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-lg flex justify-center gap-2 cursor-pointer  ;
+}
+
+.btn-secondary:hover {
+  @apply opacity-70
+}
+
+.btn-secondary:disabled {
+  @apply bg-primary/50 opacity-70 cursor-not-allowed border-0 text-white;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb {
+  background-color: var(--brand-primary);
+  border-radius: 10px;
+}
+
+.scrollbar-primary::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+.input-primary {
+  @apply bg-transparent border-b-2 border-neutral-dark text-neutral-dark px-3 py-2 placeholder-neutral-dark/70 focus:bg-white/30 focus:outline-none rounded-t-sm
+}

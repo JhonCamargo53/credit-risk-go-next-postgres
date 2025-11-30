@@ -1,0 +1,1121 @@
+basePath: /
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  handlers.CreateCreditRequestRequest:
+    description: Datos para crear una nueva solicitud de crédito
+    properties:
+      amount:
+        example: 10000000
+        type: number
+      creditStatusId:
+        example: 1
+        type: integer
+      customerId:
+        example: 1
+        type: integer
+      productType:
+        example: Préstamo Personal
+        type: string
+      termMonths:
+        example: 24
+        type: integer
+    type: object
+  handlers.CreateCustomerAssetRequest:
+    description: Datos para crear un nuevo bien del cliente
+    properties:
+      assetId:
+        example: 1
+        type: integer
+      creditRequestId:
+        example: 1
+        type: integer
+      customerId:
+        example: 1
+        type: integer
+      description:
+        example: Vehículo Toyota Corolla 2020
+        type: string
+      marketValue:
+        example: 50000000
+        type: number
+    type: object
+  handlers.CreateCustomerRequest:
+    description: Datos para crear un nuevo cliente
+    properties:
+      documentNumber:
+        example: "1234567890"
+        type: string
+      documentTypeId:
+        example: 1
+        type: integer
+      email:
+        example: maria.garcia@example.com
+        type: string
+      monthlyIncome:
+        example: 5000000
+        type: number
+      name:
+        example: María García
+        type: string
+      phoneNumber:
+        example: +57 300 123 4567
+        type: string
+    type: object
+  handlers.CreateUserRequest:
+    description: Datos para crear un nuevo usuario
+    properties:
+      email:
+        example: juan.perez@example.com
+        type: string
+      name:
+        example: Juan Pérez
+        type: string
+      password:
+        example: contraseña123
+        type: string
+      roleId:
+        example: 1
+        type: integer
+    type: object
+  handlers.LoginRequest:
+    description: Datos de inicio de sesión
+    properties:
+      email:
+        example: admin@example.com
+        type: string
+      password:
+        example: password123
+        type: string
+    type: object
+  handlers.LoginResponse:
+    description: Respuesta del inicio de sesión
+    properties:
+      error:
+        example: ""
+        type: string
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    type: object
+  handlers.UpdateCreditRequestRequest:
+    description: Datos para actualizar una solicitud de crédito existente
+    properties:
+      amount:
+        example: 15000000
+        type: number
+      creditStatusId:
+        example: 2
+        type: integer
+      customerId:
+        example: 1
+        type: integer
+      productType:
+        example: Hipoteca
+        type: string
+      termMonths:
+        example: 36
+        type: integer
+    type: object
+  handlers.UpdateCustomerAssetRequest:
+    description: Datos para actualizar un bien del cliente existente
+    properties:
+      assetId:
+        example: 2
+        type: integer
+      creditRequestId:
+        example: 1
+        type: integer
+      customerId:
+        example: 1
+        type: integer
+      description:
+        example: Vehículo Toyota Corolla 2021
+        type: string
+      marketValue:
+        example: 55000000
+        type: number
+    type: object
+  handlers.UpdateCustomerRequest:
+    description: Datos para actualizar un cliente existente
+    properties:
+      documentNumber:
+        example: "0987654321"
+        type: string
+      documentTypeId:
+        example: 2
+        type: integer
+      email:
+        example: maria.garcia.updated@example.com
+        type: string
+      monthlyIncome:
+        example: 6000000
+        type: number
+      name:
+        example: María García Actualizada
+        type: string
+      phoneNumber:
+        example: +57 300 987 6543
+        type: string
+    type: object
+  handlers.UpdateUserRequest:
+    description: Datos para actualizar un usuario existente
+    properties:
+      email:
+        example: juan.perez.updated@example.com
+        type: string
+      name:
+        example: Juan Pérez Actualizado
+        type: string
+      password:
+        example: nuevacontraseña123
+        type: string
+      roleId:
+        example: 2
+        type: integer
+    type: object
+  models.Asset:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  models.CreditRequest:
+    properties:
+      amount:
+        type: number
+      createdAt:
+        type: string
+      creditStatusId:
+        type: integer
+      customerId:
+        type: integer
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      productType:
+        type: string
+      riskCategory:
+        type: string
+      riskExplanation:
+        type: string
+      riskScore:
+        type: number
+      termMonths:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  models.CreditStatus:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  models.Customer:
+    properties:
+      createdAt:
+        type: string
+      createdById:
+        type: integer
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      documentNumber:
+        type: string
+      documentTypeId:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      monthlyIncome:
+        type: number
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  models.CustomerAsset:
+    properties:
+      assetId:
+        type: integer
+      createdAt:
+        type: string
+      creditRequestId:
+        type: integer
+      customerId:
+        type: integer
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      marketValue:
+        type: number
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  models.DocumentType:
+    properties:
+      code:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      roleId:
+        type: integer
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
+host: localhost:4000
+info:
+  contact:
+    email: support@example.com
+    name: API Support
+  description: API para gestión de solicitudes de crédito y evaluación de riesgo crediticio.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Credit Risk Assessment API
+  version: "1.0"
+paths:
+  /assets:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todos los tipos de bienes disponibles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de tipos de bienes
+          schema:
+            items:
+              $ref: '#/definitions/models.Asset'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los tipos de bienes
+      tags:
+      - Assets
+  /credit-requests:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todas las solicitudes de crédito, opcionalmente
+        filtradas por cliente
+      parameters:
+      - description: ID del cliente para filtrar
+        in: query
+        name: customerId
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de solicitudes de crédito
+          schema:
+            items:
+              $ref: '#/definitions/models.CreditRequest'
+            type: array
+        "400":
+          description: customerId inválido
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todas las solicitudes de crédito
+      tags:
+      - Credit Requests
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva solicitud de crédito en el sistema
+      parameters:
+      - description: Datos de la solicitud de crédito
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateCreditRequestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Solicitud de crédito creada exitosamente
+          schema:
+            $ref: '#/definitions/models.CreditRequest'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "404":
+          description: Cliente o estado de crédito no encontrado
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Crear una nueva solicitud de crédito
+      tags:
+      - Credit Requests
+  /credit-requests/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina una solicitud de crédito del sistema
+      parameters:
+      - description: ID de la solicitud de crédito
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Solicitud eliminada exitosamente
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "404":
+          description: Solicitud no encontrada
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Eliminar una solicitud de crédito
+      tags:
+      - Credit Requests
+    get:
+      consumes:
+      - application/json
+      description: Retorna los detalles de una solicitud de crédito específica
+      parameters:
+      - description: ID de la solicitud de crédito
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Solicitud de crédito encontrada
+          schema:
+            $ref: '#/definitions/models.CreditRequest'
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "404":
+          description: Solicitud no encontrada
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener una solicitud de crédito por ID
+      tags:
+      - Credit Requests
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos de una solicitud de crédito existente
+      parameters:
+      - description: ID de la solicitud de crédito
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos actualizados de la solicitud
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateCreditRequestRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Solicitud actualizada exitosamente
+          schema:
+            $ref: '#/definitions/models.CreditRequest'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "404":
+          description: Solicitud no encontrada
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Actualizar una solicitud de crédito
+      tags:
+      - Credit Requests
+  /credit-statuses:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todos los estados de crédito disponibles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de estados de crédito
+          schema:
+            items:
+              $ref: '#/definitions/models.CreditStatus'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los estados de crédito
+      tags:
+      - Credit Statuses
+  /customer-assets:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todos los bienes de clientes, opcionalmente
+        filtrados por solicitud de crédito
+      parameters:
+      - description: ID de la solicitud de crédito para filtrar
+        in: query
+        name: creditRequestId
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de bienes de clientes
+          schema:
+            items:
+              $ref: '#/definitions/models.CustomerAsset'
+            type: array
+        "400":
+          description: creditRequestId inválido
+          schema:
+            type: string
+        "404":
+          description: Solicitud de crédito no encontrada
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los bienes de clientes
+      tags:
+      - Customer Assets
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo bien asociado a un cliente y solicitud de crédito
+      parameters:
+      - description: Datos del bien del cliente
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateCustomerAssetRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Bien creado exitosamente
+          schema:
+            $ref: '#/definitions/models.CustomerAsset'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "404":
+          description: Cliente, activo o solicitud no encontrada
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Crear un nuevo bien del cliente
+      tags:
+      - Customer Assets
+  /customer-assets/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un bien del cliente del sistema
+      parameters:
+      - description: ID del bien del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Bien eliminado exitosamente
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "404":
+          description: Bien no encontrado
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Eliminar un bien del cliente
+      tags:
+      - Customer Assets
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos de un bien del cliente existente
+      parameters:
+      - description: ID del bien del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos actualizados del bien
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateCustomerAssetRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Bien actualizado exitosamente
+          schema:
+            $ref: '#/definitions/models.CustomerAsset'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "404":
+          description: Bien no encontrado
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Actualizar un bien del cliente
+      tags:
+      - Customer Assets
+  /customers:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todos los clientes del sistema
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de clientes
+          schema:
+            items:
+              $ref: '#/definitions/models.Customer'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los clientes
+      tags:
+      - Customers
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo cliente en el sistema
+      parameters:
+      - description: Datos del cliente a crear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateCustomerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Cliente creado exitosamente
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "409":
+          description: El cliente ya existe
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Crear un nuevo cliente
+      tags:
+      - Customers
+  /customers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un cliente del sistema
+      parameters:
+      - description: ID del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Cliente eliminado exitosamente
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Eliminar un cliente
+      tags:
+      - Customers
+    get:
+      consumes:
+      - application/json
+      description: Retorna los detalles de un cliente específico
+      parameters:
+      - description: ID del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cliente encontrado
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "404":
+          description: Cliente no encontrado
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener un cliente por ID
+      tags:
+      - Customers
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos de un cliente existente
+      parameters:
+      - description: ID del cliente
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos actualizados del cliente
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateCustomerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cliente actualizado exitosamente
+          schema:
+            $ref: '#/definitions/models.Customer'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "404":
+          description: Cliente no encontrado
+          schema:
+            type: string
+        "409":
+          description: El email ya existe
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Actualizar un cliente
+      tags:
+      - Customers
+  /document-types:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todos los tipos de documento de identidad
+        disponibles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de tipos de documento
+          schema:
+            items:
+              $ref: '#/definitions/models.DocumentType'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los tipos de documento
+      tags:
+      - Document Types
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Verifica el estado del servidor
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Hello, I'm working fine!
+          schema:
+            type: string
+      summary: Health check
+      tags:
+      - Health
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Autentica a un usuario y retorna un token JWT
+      parameters:
+      - description: Credenciales de inicio de sesión
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Token de autenticación
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+        "400":
+          description: Solicitud inválida
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+        "401":
+          description: Credenciales inválidas
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+        "403":
+          description: Usuario no activo
+          schema:
+            $ref: '#/definitions/handlers.LoginResponse'
+      summary: Iniciar sesión
+      tags:
+      - Auth
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Retorna una lista de todos los usuarios del sistema
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de usuarios
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los usuarios
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo usuario en el sistema
+      parameters:
+      - description: Datos del usuario a crear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Usuario creado exitosamente
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "409":
+          description: El usuario ya existe
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Crear un nuevo usuario
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Elimina un usuario del sistema
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Usuario eliminado exitosamente
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "404":
+          description: Usuario no encontrado
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Eliminar un usuario
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      description: Retorna los detalles de un usuario específico
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario encontrado
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: ID inválido
+          schema:
+            type: string
+        "404":
+          description: Usuario no encontrado
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Obtener un usuario por ID
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos de un usuario existente
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos actualizados del usuario
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario actualizado exitosamente
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Solicitud inválida
+          schema:
+            type: string
+        "404":
+          description: Usuario no encontrado
+          schema:
+            type: string
+        "409":
+          description: El email ya existe
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Actualizar un usuario
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    description: 'Ingresa el token JWT con el prefijo Bearer. Ejemplo: "Bearer {token}"'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
