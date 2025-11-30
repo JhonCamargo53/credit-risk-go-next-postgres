@@ -139,6 +139,8 @@ Una vez ejecutados los pasos anteriores y siempre que no se hayan modificado las
 
 Puedes comprobar que el backend está funcionando correctamente accediendo en tu navegador a: `http://localhost:5000/health`. Si el servicio está activo, verás una respuesta indicando que el servidor está operativo.
 
+Tambien puedes acceder a la documentación utilizando el siguiente enlace `http://localhost:5000/swagger/index.html`
+
 ---
 
 ### Verificación del Frontend
