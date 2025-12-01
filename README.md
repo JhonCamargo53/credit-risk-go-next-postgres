@@ -54,7 +54,115 @@ Esto mejora la **transparencia**, fortalece la **confianza del sistema** y permi
 
 ---
 
-## **2. Instrucciones para levantar el entorno con Docker**
+## 2. Motor de Evaluación de Riesgo (IA Mock)
+
+Para la **Opción 1 — Gestor de solicitudes de crédito y pre-evaluación de riesgo**, implementé un **motor de scoring crediticio** dentro del paquete `risk/`.  
+Este componente actúa como una **IA mock**, simulando el comportamiento de un sistema de crédito real mediante reglas de negocio claras, explicables y desacopladas.
+
+---
+
+###  ¿Qué hace este módulo?
+
+El archivo define la función principal `EvaluateCreditRisk`, encargada de:
+
+1. **Cargar toda la información necesaria desde la BD**
+   - Solicitud de crédito (`CreditRequest`)
+   - Cliente asociado (`Customer`)
+   - Historial de créditos previos
+   - Activos asociados específicamente a esa solicitud
+
+2. **Calcular un puntaje numérico de riesgo (0–100)**
+   Utiliza la función `calculateScore`, que evalúa factores clave:
+   - **Relación cuota / ingreso:** Mientras menor sea, menor riesgo.
+   - **Activos registrados:** Se calcula la relación `valor_activos / monto_solicitado`.
+   - **Existencia de vivienda como respaldo:** Mejora la estabilidad financiera.
+   - **Historial crediticio:**  
+     - Créditos aprobados → aumenta el score  
+     - Créditos rechazados o muchas solicitudes → lo disminuyen  
+   - **Tipo de producto:**  
+     - Vivienda/Hipotecario → bajo riesgo  
+     - Libre inversión/consumo → mayor riesgo  
+
+   El score inicia en **50** y se ajusta según reglas.  
+   Finalmente se limita al rango **0 a 100**.
+
+3. **Clasificar el riesgo**
+   Con `riskCategory(score)` se obtiene:
+   - **LOW / Bajo** (≥ 80)
+   - **MEDIUM / Medio** (≥ 55)
+   - **HIGH / Alto** (< 55)
+
+4. **Sugerir una decisión crediticia**
+   `recommendationFromScore(score)` retorna:
+   - `APROBAR`
+   - `DEJAR EN ESTUDIO / APROBAR CON CONDICIONES`
+   - `NO APROBAR`
+
+5. **Generar explicación en lenguaje natural**
+   Con `buildExplanation` se construye una salida tipo *IA explicable* que incluye:
+   - Puntaje final.  
+   - Categoría de riesgo.  
+   - Recomendación.  
+   - Razones justificadas basadas en datos reales.  
+   - Mejoras sugeridas (por ejemplo, registrar activos, reducir monto, etc).
+
+6. **Guardar resultados en la solicitud**
+   Se guardan:
+   - `RiskScore`
+   - `RiskCategory`
+   - `RiskExplanation`
+
+   Cuando se modifica algun detalle del credito el sistema automaticamente genera un nuevo reporte financiero
+
+---
+
+###  ¿Por qué esto es una IA Mock?
+
+- Simula el comportamiento de un modelo de scoring real.
+- Produce una explicación textual detallada sobre la solicitud de credito.
+- Está desacoplado, por lo que puede ser reemplazada en el futuro por un modelo real (ML/LLM).
+- El diseño facilita conectarlo a un endpoint externo de IA si el proyecto lo requiere.
+
+---
+
+### Relación con el punto entregado
+
+
+Se implementó la **Opción N°1** propuesta en la prueba técnica:
+
+> **Sistema gestor de solicitudes de crédito con pre-evaluación de riesgo y explicación en lenguaje natural.**
+
+El módulo `risk/` representa el **núcleo inteligente del sistema**, encargado de calcular el puntaje de riesgo, clasificarlo en un rango (Bajo, Medio o Alto) y generar una explicación detallada que justifica la decisión crediticia.
+
+Además, el modelo funciona bajo un principio fundamental:
+
+### Entre mayor sea el puntaje (score), mayor es la probabilidad de aprobación del crédito.
+
+Un puntaje alto indica:
+- Mejor relación cuota/ingreso  
+- Mayor respaldo en activos  
+- Mejor historial crediticio  
+- Menor riesgo financiero  
+
+Y, por tanto, una **mayor posibilidad de que el crédito sea aprobado**.
+
+Con esto, la funcionalidad cumple completamente el objetivo de la Opción N°1, entregando un sistema que evalúa solicitudes y proporciona una explicación clara, transparente y útil para toma de decisiones.
+---
+
+### Resultado final
+
+El motor permite que cada solicitud:
+- Sea evaluada automáticamente,
+- Obtenga un puntaje cuantitativo,
+- Obtenga una categoría de riesgo,
+- Reciba una explicación justificable y legible por un analista,
+- Y quede almacenada con su evaluación.
+
+Cada vez que se realiza un cambio en la información del credito **se genera una nueva evaluación** de forma automática, garantizando información actualizada y confiable.
+
+---
+
+## **3. Instrucciones para levantar el entorno con Docker**
 
 Antes de iniciar el proyecto, asegúrate de cumplir con los siguientes requisitos:
 
