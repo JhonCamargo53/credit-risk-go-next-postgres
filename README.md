@@ -58,35 +58,46 @@ Esto mejora la **transparencia**, fortalece la **confianza del sistema** y permi
 
 Antes de iniciar el proyecto, asegúrate de cumplir con los siguientes requisitos:
 
----
-
 ### Requisitos Previos
 
-
 #
-Docker (Obligatorio)
+Docker
 Debes tener instalado en tu computador:
  - Docker Desktop
 
 Docker es indispensable para ejecutar el proyecto con contenedores.
 
-### Node.js (Opcional)
-(Solo si vas a desarrollar el frontend fuera de Docker)
+### Node.js
+(Solo si vas a utilizar el frontend fuera de Docker)
 No es necesario tener Node.js para ejecutar el proyecto con Docker.
 Solo instálalo si deseas trabajar localmente en el frontend:
-- Node.js v20 o superior
+- Node.js v20.12.2 o superior
 - npm o yarn
 
  Puertos Necesarios
  Asegúrate de que los siguientes puertos estén libres:
 
-```bash
- Servicio             Puerto     Descripción
- ------------------------------------------------
- PostgreSQL            5435      Base de datos
- Backend (Go)          5000      API
- Frontend (Next.js)    3000      Aplicación web
-```
+#### PostgreSQL
+Debes contar con **PostgreSQL instalado localmente**  
+o con **credenciales de acceso remoto a una base de datos PostgreSQL**:
+- Host
+- Puerto
+- Nombre de base de datos
+- Usuario
+- Contraseña
+
+> Por defecto, el proyecto usa PostgreSQL expuesto en el puerto **5435**.  
+> Si utilizas una instancia externa, ajusta las variables de entorno para que apunten a tu servidor PostgreSQL.
+
+### Puertos utilizados
+
+
+| Servicio            |   Puerto    | Descripción            |
+|---------------------|:-----------:|------------------------|
+| PostgreSQL          |    5435     | Base de datos          |
+| Backend (Go)        | 5000 / 4000 | API REST del backend   |
+| Frontend (Next.js)  |    3000     | Aplicación web         |
+
 
  Si alguno de estos puertos está ocupado, Docker no podrá iniciar correctamente los servicios.
 
@@ -105,6 +116,10 @@ Para facilitar el despliegue, el repositorio **ya incluye** las variables config
 ---
 
 ### **Variables de entorno — Backend**
+Asegúrate de:
+
+- Cambiar usuario, contraseña y nombre de base de datos a los de tu entorno *(necesario obligatoriamente en local , si lo haces con docker el mismo crea la base de datos)*.
+- Verificar que las URLs del backend coincidan con los puertos que estás usando (local o Docker).
 
 ### Archivo: `.env.development`
 ```env
@@ -142,9 +157,10 @@ NEXT_PUBLIC_JWT_COOKIE_NAME=credit-management-token
 
 ---
 
-### **Paso 3 — Ejecutar el proyecto con Docker**
+### **Paso 3 — Ejecutar el proyecto**
 
-Una vez configuradas las variables de entorno del backend y frontend, el siguiente paso es levantar toda la infraestructura utilizando Docker Compose.
+
+**Docker:** Una vez configuradas las variables de entorno del backend y frontend, el siguiente paso es levantar toda la infraestructura utilizando Docker Compose.
 
 Ejecuta el siguiente comando:
 
@@ -152,6 +168,10 @@ Ejecuta el siguiente comando:
 docker compose up --build
 ```
 ---
+
+**Local:** Ya teniendo la variables configuradas se procede a correr el proyecto de manera loca, para el frotend escribe en cosola `npm i` para instalar las dependencias una vez termine escriba `npm run dev` y ya estara funcionando el proyecto NextJs.
+
+Para el backend es necesario un unico comando `air` al ejecutar saldra en consola el estado del servidor.
 
 ## **Paso 4 — Comprobación de funcionamiento**
 
@@ -163,14 +183,19 @@ Una vez ejecutados los pasos anteriores y siempre que no se hayan modificado las
 
 ---
 
-###  Verificación del Backend
+###  Verificación del Backend 
 
-Puedes comprobar que el backend está funcionando correctamente accediendo en tu navegador a: `http://localhost:5000/health`. Si el servicio está activo, verás una respuesta indicando que el servidor está operativo.
+Para comprobar el backend de docker está funcionando correctamente accediendo en tu navegador a: `http://localhost:5000/health`. Si el servicio está activo, verás una respuesta indicando que el servidor está operativo.
 
 Tambien puedes acceder a la documentación utilizando el siguiente enlace `http://localhost:5000/swagger/index.html`
+
+Si deseas comprobar el backend local utiliza el el siguiente enlace `http://localhost:4000/health`
 
 ---
 
 ### Verificación del Frontend
 
-Para verificar que el frontend está funcionando, abre tu navegador y accede a: `http://localhost:3000`. Ahí podrás visualizar la interfaz principal de la aplicación y comenzar a interactuar con el sistema.
+Para verificar que el frontend de docker está funcionando, abre tu navegador y accede a: `http://localhost:3000`. Ahí podrás visualizar la interfaz principal de la aplicación y comenzar a interactuar con el sistema.
+
+*Nota: El frontend corre en el mismo puerto estando en local o desde docker.*
+
