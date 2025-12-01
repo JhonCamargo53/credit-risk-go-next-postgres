@@ -186,19 +186,7 @@ Solo instálalo si deseas trabajar localmente en el frontend:
  Puertos Necesarios
  Asegúrate de que los siguientes puertos estén libres:
 
-#### PostgreSQL
-Debes contar con **PostgreSQL instalado localmente**  
-o con **credenciales de acceso remoto a una base de datos PostgreSQL**:
-- Host
-- Puerto
-- Nombre de base de datos
-- Usuario
-- Contraseña
-
-> Por defecto, el proyecto usa PostgreSQL expuesto en el puerto **5435**.  
-> Si utilizas una instancia externa, ajusta las variables de entorno para que apunten a tu servidor PostgreSQL.
-
-### Puertos utilizados
+ ### Puertos utilizados
 
 
 | Servicio            |   Puerto    | Descripción            |
@@ -209,6 +197,19 @@ o con **credenciales de acceso remoto a una base de datos PostgreSQL**:
 
 
  Si alguno de estos puertos está ocupado, Docker no podrá iniciar correctamente los servicios.
+
+#### PostgreSQL
+Debes contar con **PostgreSQL instalado localmente**  
+o con **credenciales de acceso remoto a una base de datos PostgreSQL**:
+- Host
+- Puerto
+- Nombre de base de datos
+- Usuario
+- Contraseña
+
+> Por defecto, el proyecto usa PostgreSQL expuesto en el puerto **5435**.  
+> Si utilizas una instancia externa, ajusta las variables de entorno para que apunten a tu servidor con PostgreSQL.
+
 
 ### **Paso 1 — Clonar el repositorio**
 ```bash
@@ -350,6 +351,3 @@ A continuación puedes verlos directamente en vista previa:
 [![Diagrama de la Base de Datos](https://github.com/JhonCamargo53/credit-risk-go-next-postgres/blob/main/docs/Diagrama%20de%20la%20base%20de%20datos.png)](https://github.com/JhonCamargo53/credit-risk-go-next-postgres/blob/main/docs/Diagrama%20de%20la%20base%20de%20datos.png)
 
 ---
-
-
-
