@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"gorm.io/gorm"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/helper"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
+	"gorm.io/gorm"
 )
 
 /*
@@ -80,8 +81,13 @@ func calculateScore(db *gorm.DB, cr *models.CreditRequest, assets []models.Custo
 
 		ratioPct := ratio * 100
 		reasons = append(reasons,
-			fmt.Sprintf("La cuota estimada es de %.2f, aproximadamente el %.1f%% del ingreso mensual (%.2f).",
-				quota, ratioPct, income))
+			fmt.Sprintf(
+				"La cuota mensual estimada es de %s, lo que corresponde al %.1f%% del ingreso mensual del cliente (%s).",
+				helper.FormatCOP(quota),
+				ratioPct,
+				helper.FormatCOP(income),
+			),
+		)
 
 		switch {
 		case ratio <= 0.20:
@@ -119,10 +125,15 @@ func calculateScore(db *gorm.DB, cr *models.CreditRequest, assets []models.Custo
 		improvements = append(improvements,
 			"Incluir activos con valor de mercado (por ejemplo vivienda o vehículo) como respaldo del crédito.")
 	} else {
+
 		ratioAssets := totalAssetsValue / amount
 		reasons = append(reasons,
-			fmt.Sprintf("El valor total de los activos asociados a este crédito es de %.2f (%.1fx el monto solicitado).",
-				totalAssetsValue, ratioAssets))
+			fmt.Sprintf(
+				"El valor total de los activos registrados para este crédito es de %s, lo que equivale a %.1f veces el monto solicitado.",
+				helper.FormatCOP(totalAssetsValue),
+				ratioAssets,
+			),
+		)
 
 		switch {
 		case ratioAssets >= 2.0:
