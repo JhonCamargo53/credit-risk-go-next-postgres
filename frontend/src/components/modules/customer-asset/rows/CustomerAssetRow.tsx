@@ -10,6 +10,7 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { generateAxiosErrorToast, showSuccessToast } from '@/utils/toastUtils';
 import { useCustomerAsset } from '@/hooks/useCustomerAsset';
 import { confirmActionAlert } from '@/utils/alertUtils';
+import { useCreditRequest } from '@/hooks/useCreditRequest';
 
 interface CustomerAssetRowProps extends GenericTableRow<CustomerAsset> {
 
@@ -20,6 +21,7 @@ const CustomerAssetRow: React.FC<CustomerAssetRowProps> = ({ index = 0, data, pa
     const [customerAsset] = useState(data!);
 
     const [customerAssetUpdateModal, setCustomerAssetUpdateModal] = useState(false);
+    const { fetchCreditRequestById, addOrUpdateCreditRequest } = useCreditRequest()
 
     const { assets } = useAssetStore()
 
@@ -30,12 +32,14 @@ const CustomerAssetRow: React.FC<CustomerAssetRowProps> = ({ index = 0, data, pa
 
     const handleDelete = async () => {
         try {
-            
+
             const confirm = await confirmActionAlert('Eliminar activo', '¿Está seguro de realizar esta acción?', 'question')
 
             if (confirm) {
                 setDeleting(true)
                 await deleteCustomerAsset(customerAsset.ID);
+                const creditRequest = await fetchCreditRequestById(customerAsset.creditRequestId)
+                addOrUpdateCreditRequest(creditRequest);
                 showSuccessToast('Eliminado', 'El activo del cliente ha sido eliminado correctamente.');
             }
 
@@ -62,7 +66,7 @@ const CustomerAssetRow: React.FC<CustomerAssetRowProps> = ({ index = 0, data, pa
             </td>
             <td className="px-4 py-2 ">
                 <div className="flex items-center justify-center h-full">
-                    <Button title="Eliminar activo" loading={deleting}  onClick={() => handleDelete()}>
+                    <Button title="Eliminar activo" loading={deleting} onClick={() => handleDelete()}>
                         <RiDeleteBin6Fill />
                     </Button>
                 </div>

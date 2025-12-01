@@ -105,7 +105,7 @@ const CreateUpdateCustomerAssetForm: React.FC<CreateUpdateCustomerAssetFormProps
               <option value="">Selecciona un tipo de activo</option>
               {assets.map((asset) => (
                 <option key={asset.ID} value={asset.ID}>
-                  {asset.name} {/* o la propiedad que tenga el nombre del asset */}
+                  {asset.name}
                 </option>
               ))}
             </select>

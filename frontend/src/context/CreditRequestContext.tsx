@@ -69,10 +69,9 @@ export const CreditRequestProvider = ({ children }: { children: ReactNode }) => 
     const addOrUpdateCreditRequest = (updatedCreditRequest: CreditRequest) => {
         setCreditRequests(prevCreditRequests => {
 
-            const exists = prevCreditRequests.some(creditRequest => creditRequest.ID ===updatedCreditRequest.ID);
+            const exists = prevCreditRequests.some(creditRequest => creditRequest.ID === updatedCreditRequest.ID);
 
             if (exists) {
- console.log('Existe')
                 return prevCreditRequests.map(creditRequest =>
                     creditRequest.ID === updatedCreditRequest.ID ? updatedCreditRequest : creditRequest
                 );
@@ -209,7 +208,7 @@ export const CreditRequestProvider = ({ children }: { children: ReactNode }) => 
             await deleteCreditRequest(id);
             const updatedAll = allCreditRequests.filter(creditRequest => creditRequest.ID !== id);
             setAllCreditRequests(updatedAll);
-            handlePagination(pageData,updatedAll);
+            handlePagination(pageData, updatedAll);
             setSuccess('Solicitud de crédito eliminada correctamente');
         } catch (err: any) {
             setError(err.message || 'Error al eliminar solicitud de crédito');
