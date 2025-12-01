@@ -13,6 +13,8 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { useCreditRequest } from '@/hooks/useCreditRequest';
 import { confirmActionAlert } from '@/utils/alertUtils';
 import { generateAxiosErrorToast, showSuccessToast } from '@/utils/toastUtils';
+import { RiskLevelPill } from '../pill/RiskLevelPill';
+import { CreditStatusPill } from '../pill/CreditStatusPill';
 
 interface CreditRequestRow extends GenericTableRow<CreditRequest> {
 
@@ -28,8 +30,6 @@ const CreditRequestRow: React.FC<CreditRequestRow> = ({ index = 0, data, pageDat
     const [customerUpdateModal, setCreditRequestUpdateModal] = useState(false);
     const [creditRequestHistoryModal, setCreditRequestHistoryModal] = useState(false);
     const [customerAssetsModal, setCustomerAssetsModalModal] = useState(false);
-
-    const creditStatus = creditStatuses.find(status => status.ID === creditRequest.creditStatusId);
 
     const [deleting, setDeleting] = useState(false);
     const { deleteCreditRequest } = useCreditRequest()
@@ -49,15 +49,14 @@ const CreditRequestRow: React.FC<CreditRequestRow> = ({ index = 0, data, pageDat
         }
     }
 
-
     return (
         <tr key={creditRequest.ID} className={`border-b border-gray-300 hover:bg-gray-200 text-center font-medium ${index % 2 !== 0 ? 'bg-primary/8' : ''}`}>
             <td className="px-2 py-2">{index + 1 + (pageData.currentPage - 1) * pageData.limit}</td>
             <td className="px-2 py-2 whitespace-nowrap">{creditRequest.amount.toLocaleString()}</td>
             <td className="px-2 py-2 whitespace-nowrap">{creditRequest.termMonths}</td>
             <td className="px-2 py-2">{creditRequest.productType}</td>
-            <td className="px-2 py-2">{creditStatus?.name}</td>
-            <td className="px-2 py-2">{creditRequest.riskScore}</td>
+            <td className="px-2 py-2">{<CreditStatusPill statusId={creditRequest.creditStatusId}/>}</td>
+            <td className="px-2 py-2">{<RiskLevelPill score={creditRequest.riskScore}/> }</td>
 
             <td className="px-2 py-2">
                 <div className="flex items-center justify-center h-full">
