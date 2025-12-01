@@ -56,22 +56,50 @@ Esto mejora la **transparencia**, fortalece la **confianza del sistema** y permi
 
 ## **2. Instrucciones para levantar el entorno con Docker**
 
-El proyecto incluye tres servicios principales:
+Antes de iniciar el proyecto, asegúrate de cumplir con los siguientes requisitos:
 
-- **Backend (Go)**
-- **Frontend (Next.js + TailwindCSS + Context + Zustand)**
-- **PostgreSQL**
 ---
+
+### Requisitos Previos
+
+
+#
+Docker (Obligatorio)
+Debes tener instalado en tu computador:
+ - Docker Desktop
+
+Docker es indispensable para ejecutar el proyecto con contenedores.
+
+### Node.js (Opcional)
+(Solo si vas a desarrollar el frontend fuera de Docker)
+No es necesario tener Node.js para ejecutar el proyecto con Docker.
+Solo instálalo si deseas trabajar localmente en el frontend:
+- Node.js v20 o superior
+- npm o yarn
+
+ Puertos Necesarios
+ Asegúrate de que los siguientes puertos estén libres:
+
+```bash
+ Servicio             Puerto     Descripción
+ ------------------------------------------------
+ PostgreSQL            5435      Base de datos
+ Backend (Go)          5000      API
+ Frontend (Next.js)    3000      Aplicación web
+```
+
+ Si alguno de estos puertos está ocupado, Docker no podrá iniciar correctamente los servicios.
 
 ### **Paso 1 — Clonar el repositorio**
 ```bash
-git clone **AUN NO LO CREO**
-cd REPO
+git clone -b main https://github.com/JhonCamargo53/credit-risk-go-next-postgres.git
+
+cd credit-risk-go-next-postgres
 ```
 ###  **Paso 2 — Establecer las variables de entorno**
 
-El proyecto cuenta con archivos `.env` tanto para **desarrollo** como para **producción** en el frontend y backend.  
-Puedes modificarlos según tus necesidades.  
+El proyecto cuenta con archivos `.env` tanto para **desarrollo** como para **producción** en el frontend y backend, puedes modificarlos según tus necesidades.  
+
 Para facilitar el despliegue, el repositorio **ya incluye** las variables configuradas.
 
 ---
