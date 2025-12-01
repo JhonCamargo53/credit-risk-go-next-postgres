@@ -67,11 +67,15 @@ func (s *UserService) CreateUser(user *models.User) (*models.User, error) {
 	return user, nil
 }
 
-func (s *UserService) UpdateUser(id uint, userData *models.User) (*models.User, error) {
+func (s *UserService) UpdateUser(id uint, userData *models.User, requesterId uint) (*models.User, error) {
 
 	user, err := s.GetUserByID(id)
 	if err != nil {
 		return nil, err
+	}
+
+	if id == requesterId {
+		return nil, fmt.Errorf("un usuario no puede actualizarse a sí mismo")
 	}
 
 	if userData.RoleId != 0 {

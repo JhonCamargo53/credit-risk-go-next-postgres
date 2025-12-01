@@ -177,6 +177,9 @@ func PostUserHandle(w http.ResponseWriter, r *http.Request) {
 // @Failure      500 {string} string "Error interno del servidor"
 // @Router       /users/{id} [put]
 func UpdateUserHandle(w http.ResponseWriter, r *http.Request) {
+
+	requesterId := r.Context().Value("requesterId").(uint)
+
 	params := mux.Vars(r)
 	userId := params["id"]
 	id, err := strconv.Atoi(userId)
@@ -203,7 +206,7 @@ func UpdateUserHandle(w http.ResponseWriter, r *http.Request) {
 		RoleId:   userData.RoleId,
 	}
 
-	updatedUser, err := userService.UpdateUser(uint(id), &userDataModel)
+	updatedUser, err := userService.UpdateUser(uint(id), &userDataModel, requesterId)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "ya existe") {
