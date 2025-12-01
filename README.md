@@ -147,6 +147,7 @@ Un puntaje alto indica:
 Y, por tanto, una **mayor posibilidad de que el crédito sea aprobado**.
 
 Con esto, la funcionalidad cumple completamente el objetivo de la Opción N°1, entregando un sistema que evalúa solicitudes y proporciona una explicación clara, transparente y útil para toma de decisiones.
+
 ---
 
 ### Resultado final
