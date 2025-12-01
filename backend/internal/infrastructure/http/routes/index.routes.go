@@ -15,4 +15,5 @@ func RegisterAllRoutes(router *mux.Router) {
 	RegisterHealthRoutes(router)
 	RegisterCustomerAssetRoutes(router)
 	RegisterMetricRoutes(router)
+	RegisterAboutTypeRoutes(router)
 }
