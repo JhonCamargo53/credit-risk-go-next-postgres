@@ -12,6 +12,7 @@ import CreditRequestManager from '../../credit-request/CreditRequestManager';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { confirmActionAlert } from '@/utils/alertUtils';
 import { useCustomer } from '@/hooks/useCustomer';
+import { useDocumentTypeStore } from '@/store/useDocumentTypeStore';
 
 interface CustomerRow extends GenericTableRow<Customer> {
 
@@ -27,6 +28,9 @@ const CustomerRow: React.FC<CustomerRow> = ({ index = 0, data, pageData = { curr
 
     const [deleting, setDeleting] = useState(false);
     const { deleteCustomer } = useCustomer()
+    const {documentTypes} = useDocumentTypeStore()
+    
+    const documentType = documentTypes.find(dt => dt.ID === customer.documentTypeId)?.code || customer.documentTypeId;
 
     const handleDelete = async () => {
         try {
@@ -51,7 +55,7 @@ const CustomerRow: React.FC<CustomerRow> = ({ index = 0, data, pageData = { curr
         <tr key={customer.ID} className={`border-b border-gray-300 hover:bg-gray-200 text-center font-medium ${index % 2 !== 0 ? 'bg-primary/8' : ''}`}>
             <td className="px-4 py-2">{index + 1 + (pageData.currentPage - 1) * pageData.limit}</td>
             <td className="px-4 py-2 whitespace-nowrap">{customer.name}</td>
-            <td className="px-4 py-2 whitespace-nowrap">{customer.name}</td>
+            <td className="px-4 py-2 whitespace-nowrap">{documentType} - {customer.documentNumber}</td>
             <td className="px-4 py-2">{customer.email}</td>
             <td className="px-4 py-2">
                 <div className="flex items-center justify-center h-full">
@@ -94,7 +98,7 @@ const CustomerRow: React.FC<CustomerRow> = ({ index = 0, data, pageData = { curr
 
             {creditRequestHistoryModal &&
                 <GenericModal content={<CreditRequestManager customerId={customer.ID} />}
-                    isOpen={creditRequestHistoryModal} setOpen={setCreditRequestHistoryModal} size='6xl' />}
+                    isOpen={creditRequestHistoryModal} setOpen={setCreditRequestHistoryModal} size='5xl' />}
 
         </tr>
     )

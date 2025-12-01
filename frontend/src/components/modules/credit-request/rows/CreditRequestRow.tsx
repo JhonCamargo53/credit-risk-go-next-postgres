@@ -52,35 +52,35 @@ const CreditRequestRow: React.FC<CreditRequestRow> = ({ index = 0, data, pageDat
 
     return (
         <tr key={creditRequest.ID} className={`border-b border-gray-300 hover:bg-gray-200 text-center font-medium ${index % 2 !== 0 ? 'bg-primary/8' : ''}`}>
-            <td className="px-4 py-2">{index + 1 + (pageData.currentPage - 1) * pageData.limit}</td>
-            <td className="px-4 py-2 whitespace-nowrap">{creditRequest.amount.toLocaleString()}</td>
-            <td className="px-4 py-2 whitespace-nowrap">{creditRequest.termMonths}</td>
-            <td className="px-4 py-2">{creditRequest.productType}</td>
-            <td className="px-4 py-2">{creditStatus?.name}</td>
-            <td className="px-4 py-2">{creditRequest.riskScore}</td>
+            <td className="px-2 py-2">{index + 1 + (pageData.currentPage - 1) * pageData.limit}</td>
+            <td className="px-2 py-2 whitespace-nowrap">{creditRequest.amount.toLocaleString()}</td>
+            <td className="px-2 py-2 whitespace-nowrap">{creditRequest.termMonths}</td>
+            <td className="px-2 py-2">{creditRequest.productType}</td>
+            <td className="px-2 py-2">{creditStatus?.name}</td>
+            <td className="px-2 py-2">{creditRequest.riskScore}</td>
 
-            <td className="px-4 py-2">
+            <td className="px-2 py-2">
                 <div className="flex items-center justify-center h-full">
                     <Button title="Detalles cliente" onClick={() => setCreditRequestDetailsModal(true)}>
                         <FaEye />
                     </Button>
                 </div>
             </td>
-            <td className="px-4 py-2">
+            <td className="px-2 py-2">
                 <div className="flex items-center justify-center h-full">
                     <Button title="Ver activos del cliente" onClick={() => setCustomerAssetsModalModal(true)}>
                         <PiBankFill />
                     </Button>
                 </div>
             </td>
-            <td className="px-4 py-2 ">
+            <td className="px-2 py-2 ">
                 <div className="flex items-center justify-center h-full">
                     <Button title="Editar cliente" onClick={() => setCreditRequestUpdateModal(true)}>
                         <FaPencilAlt />
                     </Button>
                 </div>
             </td>
-            <td className="px-4 py-2 ">
+            <td className="px-2 py-2 ">
                 <div className="flex items-center justify-center h-full">
                     <Button title="Eliminar cliente" loading={deleting} onClick={() => handleDelete()}>
                         <RiDeleteBin6Fill />

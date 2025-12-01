@@ -61,7 +61,7 @@ const GenericTable = <T extends { ID: number, UpdatedAt: string }>({ data, row, 
                     <tr>
                         {
                             columns.map(column => (
-                                <th key={column.id} className={`px-4 py-4 text-center border-b text-base ${column.className}`} style={{ minWidth: column.minWidth ? column.minWidth : 'auto' }}>{column.label}</th>
+                                <th key={column.id} className={`px-4 py-4 text-center border-b text-base ${column.className}`} style={{ minWidth: column.minWidth ? column.minWidth : 'auto', maxWidth: column.maxWidth ? column.maxWidth : 'auto' }}>{column.label}</th>
                             ))
                         }
                     </tr>

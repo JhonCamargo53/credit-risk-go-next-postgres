@@ -2,6 +2,7 @@ export interface DataColumn {
     id: string;
     label: string;
     minWidth?: number;
+    maxWidth?: number;
     className?: string;
 }
 

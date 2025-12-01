@@ -52,7 +52,7 @@ const CreditRequestManager: React.FC<CreditRequestManagerProps> = ({ customerId 
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-2">
+                <div className="col-span-5 md:col-span-3">
                     <Button iconLeft={<FaPlus />} className="font-bold w-full h-full" onClick={() => setCreateUpdateModal(true)}>Agregar</Button>
                 </div>
             </div>
