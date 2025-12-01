@@ -8,23 +8,26 @@ import (
 )
 
 func loadEnvFile() {
-	env := os.Getenv("ENV")
 
-	filename := ".env.development"
+	inRailway := os.Getenv("RAILWAY_ENVIRONMENT") != "" ||
+		os.Getenv("RAILWAY_PROJECT_ID") != ""
 
-	if env == "" {
-		_ = godotenv.Load(".env.development")
-		env = os.Getenv("ENV")
+	if inRailway {
+		log.Println("Modo Railway detectado: NO se cargan archivos .env")
+		return
 	}
+
+	env := os.Getenv("ENV")
+	filename := ".env.development"
 
 	if env == "production" {
 		filename = ".env.production"
 	}
 
 	if err := godotenv.Load(filename); err != nil {
-		log.Printf(" No se pudo cargar %s: %v", filename, err)
+		log.Printf("No se pudo cargar %s: %v", filename, err)
 	} else {
-		log.Printf(" Archivo de entorno cargado: %s", filename)
+		log.Printf("Archivo de entorno cargado: %s", filename)
 	}
 }
 
@@ -49,13 +52,12 @@ func Load() *Config {
 	return &Config{
 		ENV:  getEnv("ENV", "development"),
 		Port: getEnv("PORT", "4000"),
+
 		DatabaseURL: getEnv(
 			"DATABASE_URL",
-			"host=localhost user=admin password=20Acc3ss25 dbname=credit port=5435 sslmode=disable",
+			"postgres://admin:20Acc3ss25@localhost:5435/credit?sslmode=disable",
 		),
-		JWTSecretKey: getEnv(
-			"JWT_SECRET_KEY",
-			"default-secret-key",
-		),
+
+		JWTSecretKey: getEnv("JWT_SECRET_KEY", "default-secret-key"),
 	}
 }
