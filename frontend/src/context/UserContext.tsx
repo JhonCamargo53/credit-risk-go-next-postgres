@@ -123,7 +123,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
       const updated = [...allUsers, newUser];
       setAllUsers(updated);
-      handlePagination(pageData);
+      handlePagination(pageData,updated);
 
       setSuccess('Usuario creado correctamente');
 

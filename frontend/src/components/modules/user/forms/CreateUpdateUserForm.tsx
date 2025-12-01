@@ -16,7 +16,7 @@ const CreateUpdateUserForm: React.FC<CreateUpdateUserFormProps> = ({ user }) => 
   const { createUser, updateUser } = useUser();
   const { removeLastOpenModal } = useModal();
   const [loading, setLoading] = useState(false);
-  const [roles] = useState([{ id: 1, name: 'ADMINISTRADOR' }, { id: 2, name: 'EMPPLEADO' }])
+  const [roles] = useState([{ id: 1, name: 'ADMINISTRADOR' }, { id: 2, name: 'EMPLEADO' }])
 
   const { register, handleSubmit, formState: { errors },watch } = useForm<UserForm>({
     defaultValues: {
