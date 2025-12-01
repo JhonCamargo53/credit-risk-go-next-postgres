@@ -13,6 +13,7 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { confirmActionAlert } from '@/utils/alertUtils';
 import { useCustomer } from '@/hooks/useCustomer';
 import { useDocumentTypeStore } from '@/store/useDocumentTypeStore';
+import { useModal } from '@/hooks/useModal';
 
 interface CustomerRow extends GenericTableRow<Customer> {
 
@@ -28,8 +29,9 @@ const CustomerRow: React.FC<CustomerRow> = ({ index = 0, data, pageData = { curr
 
     const [deleting, setDeleting] = useState(false);
     const { deleteCustomer } = useCustomer()
-    const {documentTypes} = useDocumentTypeStore()
-    
+    const { documentTypes } = useDocumentTypeStore()
+    const { removeLastOpenModal } = useModal()
+
     const documentType = documentTypes.find(dt => dt.ID === customer.documentTypeId)?.code || customer.documentTypeId;
 
     const handleDelete = async () => {
@@ -49,6 +51,10 @@ const CustomerRow: React.FC<CustomerRow> = ({ index = 0, data, pageData = { curr
         } finally {
             setDeleting(false);
         }
+    }
+
+    const handleOnCloseRequestHistoryModal = () => {
+        removeLastOpenModal()
     }
 
     return (
@@ -98,7 +104,7 @@ const CustomerRow: React.FC<CustomerRow> = ({ index = 0, data, pageData = { curr
 
             {creditRequestHistoryModal &&
                 <GenericModal content={<CreditRequestManager customerId={customer.ID} />}
-                    isOpen={creditRequestHistoryModal} setOpen={setCreditRequestHistoryModal} size='5xl' />}
+                    isOpen={creditRequestHistoryModal} setOpen={setCreditRequestHistoryModal} size='5xl' handleOnClose={handleOnCloseRequestHistoryModal} />}
 
         </tr>
     )

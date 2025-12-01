@@ -15,6 +15,7 @@ interface GenericModalProps {
   closeIcon?: boolean;
   actionButton?: ReactNode;
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl' | 'full';
+  handleOnClose?: () => void;
 }
 
 const widthClasses = {
@@ -41,6 +42,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
   zIndex = 100,
   closeIcon = true,
   actionButton,
+  handleOnClose = () => { },
   size = 'md',
 }) => {
 
@@ -77,7 +79,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       if (openModalList[openModalList.length - 1] === modalId) {
-         document.body.style.overflow = '';
+        document.body.style.overflow = '';
         handleOverlayClick();
       }
     }
@@ -100,6 +102,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
 
     setAnimateIn(false);
     setTimeout(() => {
+      handleOnClose()
       removeLastOpenModal()
     }, 300);
   };
