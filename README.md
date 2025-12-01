@@ -308,3 +308,48 @@ Para verificar que el frontend de docker está funcionando, abre tu navegador y 
 
 *Nota: El frontend corre en el mismo puerto estando en local o desde docker.*
 
+---
+
+## **Acceso a la Plataforma**
+
+| Servicio | URL | Descripción |
+|---------|-----|-------------|
+| **Frontend (Producción)** | https://risk-management.alphacodexs.com | Interfaz web para gestión de clientes, solicitudes y análisis de riesgo. |
+| **Backend (Producción)** |  https://risk-management-backend.alphacodexs.com | API REST del sistema, motor de evaluación y autenticación. |
+
+---
+
+> Puedes **crear usuarios de prueba**, registrar clientes, agregar activos, generar solicitudes, ejecutar evaluaciones de riesgo y visualizar el flujo completo de funcionamiento del sistema.
+
+---
+### **¿Qué puedes probar en producción?**
+- Inicio de sesión.
+- Gestionar usuarios. 
+- Gestión de clientes y sus activos.  
+- Creación de solicitudes de crédito.  
+- Motor de evaluación de riesgo (IA Mock).  
+- Reportes financieros generados automáticamente.  
+
+---
+
+> **Si no dispone de credenciales para acceder al entorno de producción, puede solicitarlas para realizar las pruebas correspondientes.**
+
+## 📁 Documentación del Proyecto
+
+En la carpeta **`/docs`** se encuentran los diagramas principales del sistema.  
+A continuación puedes verlos directamente en vista previa:
+
+---
+
+### Diagrama de Arquitectura
+[![Diagrama de Arquitectura](https://github.com/JhonCamargo53/credit-risk-go-next-postgres/blob/main/docs/Diagrama%20de%20Arquitectura.svg)](https://github.com/JhonCamargo53/credit-risk-go-next-postgres/blob/main/docs/Diagrama%20de%20Arquitectura.svg)
+
+---
+
+### Diagrama de la Base de Datos
+[![Diagrama de la Base de Datos](https://github.com/JhonCamargo53/credit-risk-go-next-postgres/blob/main/docs/Diagrama%20de%20la%20base%20de%20datos.png)](https://github.com/JhonCamargo53/credit-risk-go-next-postgres/blob/main/docs/Diagrama%20de%20la%20base%20de%20datos.png)
+
+---
+
+
+
