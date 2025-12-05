@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Credit Risk Manager – MVP",
     description:
       "Sistema MVP para evaluar riesgo crediticio, gestionar solicitudes y generar reportes financieros automatizados.",
-    url: "https://tu-dominio.com",
+    url: "https://risk-management.alphacodexs.com",
     siteName: "Credit Risk Manager",
     locale: "es_CO",
     type: "website",

@@ -4,10 +4,14 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services"
+	creditStatus "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/credit-status"
 )
 
-var creditStatusService *services.CreditStatusService
+var creditStatusService *creditStatus.CreditStatusService
+
+func InitCreditStatusHandler(service *creditStatus.CreditStatusService) {
+	creditStatusService = service
+}
 
 // GetCreditStatusesHandle godoc
 // @Summary      Obtener todos los estados de crédito
@@ -19,12 +23,27 @@ var creditStatusService *services.CreditStatusService
 // @Success      200 {array} models.CreditStatus "Lista de estados de crédito"
 // @Failure      500 {string} string "Error interno del servidor"
 // @Router       /credit-statuses [get]
+
 func GetCreditStatusesHandle(w http.ResponseWriter, r *http.Request) {
-	creditStatuses, err := creditStatusService.GetAllCreditStatuses()
-	if err != nil {
-		http.Error(w, "No se pudieron obtener los estados de creditos", http.StatusInternalServerError)
+	w.Header().Set("Content-Type", "application/json")
+
+	if creditStatusService == nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "creditStatusService no inicializado",
+		})
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(creditStatuses)
+
+	statuses, err := creditStatusService.GetAllCreditStatuses()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "No se pudieron obtener los estados de crédito",
+		})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(statuses)
 }

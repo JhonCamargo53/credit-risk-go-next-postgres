@@ -5,8 +5,13 @@ import (
 	"net/http"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database"
+	database "github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database/gorm"
 )
+
+var Roles = map[string]int{
+	"ADMIN": 1,
+	"USER":  2,
+}
 
 func RequireAdminRole(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -29,11 +34,10 @@ func RequireAdminRole(next http.Handler) http.Handler {
 			return
 		}
 
-		if user.RoleId != 1 {
+		if user.RoleId != uint(Roles["ADMIN"]) {
 			http.Error(w, "No tiene acceso a este recurso", http.StatusForbidden)
 			return
 		}
-
 		ctx := context.WithValue(r.Context(), "user", user)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

@@ -7,11 +7,16 @@ import (
 	"strings"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services"
+	creditRequest "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/credit-request"
 	"github.com/gorilla/mux"
 )
 
-var creditRequestService *services.CreditRequestService
+var creditRequestService *creditRequest.CreditRequestService
+
+// InitCreditRequestHandler inyecta el servicio de dominio desde main.go
+func InitCreditRequestHandler(s *creditRequest.CreditRequestService) {
+	creditRequestService = s
+}
 
 // CreateCreditRequestRequest representa el cuerpo de la solicitud para crear una solicitud de crédito
 // @Description Datos para crear una nueva solicitud de crédito

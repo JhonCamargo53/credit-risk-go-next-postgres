@@ -7,11 +7,15 @@ import (
 	"strings"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/customer"
 	"github.com/gorilla/mux"
 )
 
-var customerService *services.CustomerService
+var customerService *customer.CustomerService
+
+func InitCustomerHandler(s *customer.CustomerService) {
+	customerService = s
+}
 
 // CreateCustomerRequest representa el cuerpo de la solicitud para crear un cliente
 // @Description Datos para crear un nuevo cliente

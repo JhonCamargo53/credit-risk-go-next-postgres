@@ -8,11 +8,15 @@ import (
 	"strings"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services"
+	customerAsset "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/customer-asset"
 	"github.com/gorilla/mux"
 )
 
-var customerAssetService *services.CustomerAssetService
+var customerAssetService *customerAsset.CustomerAssetService
+
+func InitCustomerAssetHandler(s *customerAsset.CustomerAssetService) {
+	customerAssetService = s
+}
 
 // CreateCustomerAssetRequest representa el cuerpo de la solicitud para crear un bien del cliente
 // @Description Datos para crear un nuevo bien del cliente

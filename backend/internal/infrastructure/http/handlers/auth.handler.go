@@ -4,18 +4,19 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/auth"
 )
 
-// LoginRequest representa el cuerpo de la solicitud de login
-// @Description Datos de inicio de sesión
+var authService *auth.AuthService
+
+func InitAuthHandler(service *auth.AuthService) {
+	authService = service
+}
+
 type LoginRequest struct {
 	Email    string `json:"email" example:"admin@example.com"`
 	Password string `json:"password" example:"password123"`
 }
-
-// LoginResponse representa la respuesta del login
-// @Description Respuesta del inicio de sesión
 type LoginResponse struct {
 	Token string `json:"token,omitempty" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."`
 	Error string `json:"error,omitempty" example:""`
@@ -34,6 +35,14 @@ type LoginResponse struct {
 // @Failure      403 {object} LoginResponse "Usuario no activo"
 // @Router       /login [post]
 func LoginHandle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if authService == nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(LoginResponse{Error: "authService no inicializado"})
+		return
+	}
+
 	var req LoginRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -48,8 +57,7 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := services.LoginService(req.Email, req.Password)
-
+	token, err := authService.Login(req.Email, req.Password)
 	if err != nil {
 		if err.Error() == "El usuario no está activo" {
 			w.WriteHeader(http.StatusForbidden)

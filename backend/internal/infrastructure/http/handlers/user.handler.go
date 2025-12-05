@@ -9,12 +9,15 @@ import (
 	"strings"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/user"
 	"github.com/gorilla/mux"
-	"golang.org/x/crypto/bcrypt"
 )
 
-var userService *services.UserService
+var userService *user.UserService
+
+func InitUserHandler(us *user.UserService) {
+	userService = us
+}
 
 // CreateUserRequest representa el cuerpo de la solicitud para crear un usuario
 // @Description Datos para crear un nuevo usuario
@@ -130,17 +133,10 @@ func PostUserHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Los campos Nombre, Correo, Contraseña y Rango son obligatorios", http.StatusBadRequest)
 		return
 	}
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(userData.Password), 14)
-	if err != nil {
-		http.Error(w, "No se pudo encriptar la contraseña", http.StatusInternalServerError)
-		return
-	}
-
 	user := models.User{
 		Name:     userData.Name,
 		Email:    userData.Email,
-		Password: string(hashedPassword),
+		Password: userData.Password,
 		RoleId:   userData.RoleId,
 	}
 

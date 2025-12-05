@@ -1,13 +1,13 @@
 package middlewares
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"sync"
 	"sync/atomic"
 	"time"
-
-	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/logger"
 )
 
 type responseRecorder struct {
@@ -35,7 +35,7 @@ var totalRequests uint64
 var (
 	mu                 sync.RWMutex
 	requestsByPath     = make(map[string]uint64)
-	totalLatencyByPath = make(map[string]int64) // en milisegundos
+	totalLatencyByPath = make(map[string]int64)
 )
 
 func GetTotalRequests() uint64 {
@@ -77,7 +77,6 @@ func RequestLogger(next http.Handler) http.Handler {
 			StatusCode:     http.StatusOK,
 		}
 
-		// Consola simple
 		fmt.Printf("[REQ] %s %s\n", r.Method, r.RequestURI)
 
 		next.ServeHTTP(rr, r)
@@ -94,8 +93,7 @@ func RequestLogger(next http.Handler) http.Handler {
 		requestsByPath[r.URL.Path]++
 		totalLatencyByPath[r.URL.Path] += latencyMs
 		mu.Unlock()
-
-		logger.WriteJSON(map[string]interface{}{
+		entry := map[string]interface{}{
 			"timestamp":  time.Now().Format(time.RFC3339),
 			"level":      "info",
 			"event":      "http_request",
@@ -107,6 +105,12 @@ func RequestLogger(next http.Handler) http.Handler {
 			"status":     rr.StatusCode,
 			"bytes_sent": rr.BytesWritten,
 			"latency_ms": latencyMs,
-		})
+		}
+
+		if data, err := json.Marshal(entry); err == nil {
+			log.Println(string(data))
+		} else {
+			log.Printf("error serializando log: %v\n", err)
+		}
 	})
 }

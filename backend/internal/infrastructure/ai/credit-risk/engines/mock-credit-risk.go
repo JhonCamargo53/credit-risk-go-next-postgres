@@ -1,4 +1,4 @@
-package risk
+package engines
 
 import (
 	"fmt"
@@ -7,7 +7,6 @@ import (
 	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/helper"
 
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"gorm.io/gorm"
 )
 
 /*
@@ -18,25 +17,11 @@ y devuelve la explicación en lenguaje natural.
 
 */
 
-func EvaluateCreditRisk(db *gorm.DB, cr *models.CreditRequest) (string, error) {
-	// Cargar la info relacionada
-	if err := db.
-		Preload("Customer").
-		Preload("Customer.CreditRequests").
-		First(cr, cr.ID).Error; err != nil {
-		return "", err
-	}
-
-	// Activos asociados SÓLO a este crédito
-	var assets []models.CustomerAsset
-	if err := db.
-		Where("credit_request_id = ? AND status = ?", cr.ID, true).
-		Find(&assets).Error; err != nil {
-		return "", err
-	}
+func EvaluateCreditRisk(customer models.Customer, currentCreditRequest models.CreditRequest,
+	otherCredits []models.CreditRequest, assets []models.CustomerAsset) (float64, string, string, error) {
 
 	//Calcular puntaje
-	score, reasons, improvements := calculateScore(db, cr, assets, cr.ID)
+	score, reasons, improvements := calculateScore(customer, currentCreditRequest, otherCredits, assets)
 
 	//Determinar categoría y recomendación
 	categoryEN, categoryES := riskCategory(score)
@@ -45,28 +30,19 @@ func EvaluateCreditRisk(db *gorm.DB, cr *models.CreditRequest) (string, error) {
 	//Construir explicación en lenguaje natural
 	explanation := buildExplanation(score, categoryES, recommendation, reasons, improvements)
 
-	//Guardar en la solicitud de crédito
-	cr.RiskScore = score
-	cr.RiskCategory = categoryEN
-	cr.RiskExplanation = explanation
-
-	if err := db.Save(cr).Error; err != nil {
-		return "", err
-	}
-
-	return explanation, nil
+	return score, categoryEN, explanation, nil
 }
 
-func calculateScore(db *gorm.DB, cr *models.CreditRequest, assets []models.CustomerAsset, currentCreditRequestId uint) (float64, []string, []string) {
-	score := 50.0 // base
+func calculateScore(customer models.Customer, currentCreditRequest models.CreditRequest,
+	otherCredits []models.CreditRequest, assets []models.CustomerAsset) (float64, []string, []string) {
+
+	score := 50.0
 	var reasons []string
 	var improvements []string
 
-	customer := cr.Customer
-
 	// Relación cuota / ingreso
-	amount := cr.Amount
-	term := float64(cr.TermMonths)
+	amount := currentCreditRequest.Amount
+	term := float64(currentCreditRequest.TermMonths)
 	income := customer.MonthlyIncome
 
 	if amount <= 0 || term <= 0 || income <= 0 {
@@ -155,14 +131,6 @@ func calculateScore(db *gorm.DB, cr *models.CreditRequest, assets []models.Custo
 		}
 	}
 
-	//Historial de créditos del cliente (Sin añadir el actual)
-	var otherCredits []models.CreditRequest
-
-	if err := db.
-		Where("customer_id = ? AND id <> ?", customer.ID, currentCreditRequestId).
-		Find(&otherCredits).Error; err != nil {
-	}
-
 	totalCredits := len(otherCredits)
 	approvedCount := 0
 	rejectedCount := 0
@@ -225,7 +193,7 @@ func calculateScore(db *gorm.DB, cr *models.CreditRequest, assets []models.Custo
 	}
 
 	//Tipo de producto (vivienda / libre inversión)
-	productType := strings.ToUpper(strings.TrimSpace(cr.ProductType))
+	productType := strings.ToUpper(strings.TrimSpace(currentCreditRequest.ProductType))
 
 	if strings.Contains(productType, "VIVIENDA") || strings.Contains(productType, "HIPOTEC") {
 		score += 10

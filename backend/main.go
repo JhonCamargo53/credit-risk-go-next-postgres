@@ -7,8 +7,9 @@ import (
 
 	_ "github.com/JhonCamargo53/prueba-tecnica/docs"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/config"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database/migrations"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/bootstrap"
+	databaseGorm "github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database/gorm"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database/gorm/migrations"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/http/middlewares"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/http/routes"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/logger"
@@ -39,19 +40,20 @@ import (
 func main() {
 
 	logger.InitLogger()
-	defer logger.LogFile.Close()
 
 	config := config.Load()
 
-	database.DatabaseConnection()
+	databaseGorm.DatabaseConnection()
 
-	if err := migrations.AutoMigrateAll(database.DB); err != nil {
+	if err := migrations.AutoMigrateAll(databaseGorm.DB); err != nil {
 		log.Fatal("Error en migración de modelos: ", err)
 	}
 
-	if err := seed.SeedAll(database.DB); err != nil {
+	if err := seed.SeedAll(databaseGorm.DB); err != nil {
 		log.Fatal("Error insertando datos iniciales: ", err)
 	}
+
+	bootstrap.InitializeDependencies(databaseGorm.DB, config)
 
 	router := mux.NewRouter()
 
@@ -74,13 +76,12 @@ func main() {
 
 	handler := c.Handler(router)
 
-	log.Printf("Servidor corriendo en http://localhost:%s\n", config.Port)
-
 	fmt.Println(`
-░█▀▄▀█ ─█▀▀█ ░█▄─░█ ─█▀▀█ ░█▀▀█ ░█▀▀▀ ░█▀▄▀█ ░█▀▀▀ ░█▄─░█ ▀▀█▀▀ ░█─── ▀█▀ ░█──░█ ░█▀▀▀ 
-░█░█░█ ░█▄▄█ ░█░█░█ ░█▄▄█ ░█─▄▄ ░█▀▀▀ ░█░█░█ ░█▀▀▀ ░█░█░█ ─░█── ░█─── ░█─ ─░█░█─ ░█▀▀▀ 
-░█──░█ ░█─░█ ░█──▀█ ░█─░█ ░█▄▄█ ░█▄▄▄ ░█──░█ ░█▄▄▄ ░█──▀█ ─░█── ░█▄▄█ ▄█▄ ──▀▄▀─ ░█▄▄▄`)
-	fmt.Printf("                             Corriendo en http://localhost:%s\n", config.Port)
+░█▀▄▀█ ─█▀▀█ ░█▄─░█ ─█▀▀█ ░█▀▀█ ░█▀▀▀ ░█▀▄▀█ ░█▀▀▀   ░█▄─░█ ▀▀█▀▀ ░█─── ▀█▀ ░█──░█ ░█▀▀▀ 
+░█░█░█ ░█▄▄█ ░█░█░█ ░█▄▄█ ░█─▄▄ ░█▀▀▀ ░█░█░█ ░█▀▀▀   ░█░█░█ ─░█── ░█─── ░█─ ─░█░█─ ░█▀▀▀ 
+░█──░█ ░█─░█ ░█──▀█ ░█─░█ ░█▄▄█ ░█▄▄▄ ░█──░█ ░█▄▄▄   ░█──▀█ ─░█── ░█▄▄█ ▄█▄ ──▀▄▀─ ░█▄▄▄`)
+
+	log.Printf("Servidor corriendo en http://localhost:%s\n", config.Port)
 
 	err := http.ListenAndServe(":"+config.Port, handler)
 	if err != nil {
