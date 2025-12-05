@@ -1,11 +1,16 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Customer struct {
 	ID             uint            `gorm:"primaryKey" json:"ID"`
 	CreatedAt      time.Time       `json:"CreatedAt"`
 	UpdatedAt      time.Time       `json:"UpdatedAt"`
+	DeletedAt      gorm.DeletedAt  `gorm:"index" json:"-"`
 	Name           string          `json:"name"`
 	Email          string          `json:"email"`
 	PhoneNumber    string          `json:"phoneNumber"`
