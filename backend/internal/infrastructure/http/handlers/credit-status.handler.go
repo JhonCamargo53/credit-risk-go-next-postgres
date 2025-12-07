@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	creditStatus "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/credit-status"
+	creditStatus "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/credit-status"
 )
 
 var creditStatusService *creditStatus.CreditStatusService

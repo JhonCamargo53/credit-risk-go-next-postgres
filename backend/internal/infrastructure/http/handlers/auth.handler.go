@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/auth"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/auth"
 )
 
 var authService *auth.AuthService

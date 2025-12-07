@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/customer"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/customer"
 	"github.com/gorilla/mux"
 )
 

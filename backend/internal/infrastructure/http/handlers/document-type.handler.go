@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	documentType "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/document-type"
+	documentType "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/document-type"
 )
 
 var documentTypeService *documentType.DocumentTypeService

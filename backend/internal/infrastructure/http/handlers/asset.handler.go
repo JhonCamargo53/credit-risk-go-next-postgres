@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/asset"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/asset"
 )
 
 var assetService *asset.AssetService

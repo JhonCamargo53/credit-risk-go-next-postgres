@@ -2,16 +2,16 @@ package bootstrap
 
 import (
 	_ "github.com/JhonCamargo53/prueba-tecnica/docs"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/asset"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/auth"
+	creditRequest "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/credit-request"
+	creditStatus "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/credit-status"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/customer"
+	customerAsset "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/customer-asset"
+	documentType "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/document-type"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/role"
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/user"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/config"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/asset"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/auth"
-	creditRequest "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/credit-request"
-	creditStatus "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/credit-status"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/customer"
-	customerAsset "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/customer-asset"
-	documentType "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/document-type"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/role"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/user"
 	adapters "github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/ai/credit-risk/adapter/gorm"
 	repositories "github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/database/gorm/adapters"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/infrastructure/http/handlers"
@@ -19,6 +19,7 @@ import (
 )
 
 func InitializeDependencies(db *gorm.DB, cfg *config.Config) {
+
 	/* Assets */
 	assetRepo := repositories.NewAssetGormRepository(db)
 	assetService := asset.NewAssetService(assetRepo)

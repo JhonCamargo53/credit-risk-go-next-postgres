@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/JhonCamargo53/prueba-tecnica/internal/application/services/user"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/user"
 	"github.com/gorilla/mux"
 )
 

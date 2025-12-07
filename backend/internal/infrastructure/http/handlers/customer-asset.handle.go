@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	customerAsset "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/customer-asset"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	customerAsset "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/customer-asset"
 	"github.com/gorilla/mux"
 )
 

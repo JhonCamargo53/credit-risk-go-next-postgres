@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	creditRequest "github.com/JhonCamargo53/prueba-tecnica/internal/application/services/credit-request"
 	"github.com/JhonCamargo53/prueba-tecnica/internal/domain/models"
-	creditRequest "github.com/JhonCamargo53/prueba-tecnica/internal/domain/services/credit-request"
 	"github.com/gorilla/mux"
 )
 
